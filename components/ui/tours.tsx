@@ -25,9 +25,9 @@ const Tours = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   return (
     <div className="container">
-      <div className="flex flex-row gap-x-[12px]">
+      <div className="gap-x-[12px] grid grid-cols-3">
         {filtersOpen && (
-          <div className="min-w-[293px] rounded-[20px] bg-[#f5f5f5]">
+          <div className="rounded-[20px] bg-[#f5f5f5]">
             <div className="pb-[24px] pt-[20px] px-[20px] flex flex-row justify-between items-center">
               <p className="text-[24px] !font-pg">Фильтры</p>
               <XIcon
@@ -118,19 +118,35 @@ const Tours = () => {
             </FiltersAccordion>
           </div>
         )}
-        <div>
+        <div
+          className={cn("col-span-3", {
+            "lg:col-span-2": filtersOpen,
+          })}
+        >
           <div className="h-[48px] flex items-center justify-between">
-            <div className="flex flex-row space-x-[16px]">
+            <div className="flex flex-row gap-x-[16px]">
               {!filtersOpen && (
                 <button
                   className={cn(
-                    "flex border border-border rounded-[12px] flex-row bg-white items-center px-[8px] py-[12px] justify-start text-left",
+                    "hidden md:flex border border-border rounded-[12px] flex-row bg-white items-center px-[12px] py-[12px] justify-start text-left",
                   )}
                   onClick={() => setFiltersOpen(true)}
                 >
                   <div className="flex flex-row space-x-[8px]">
                     <Icons.settings className="size-[24px] text-[#a6a6a6]" />
-                    <p>Фильтры</p>
+                    <p className="font-medium">Фильтры</p>
+                  </div>
+                </button>
+              )}
+              {!filtersOpen && (
+                <button
+                  className={cn(
+                    "flex md:hidden border border-border rounded-[12px] flex-row bg-white items-center px-[8px] py-[12px] justify-start text-left",
+                  )}
+                  onClick={() => setFiltersOpen(true)}
+                >
+                  <div className="flex flex-row space-x-[8px]">
+                    <Icons.settings className="size-[24px] text-[#a6a6a6]" />
                   </div>
                 </button>
               )}
@@ -142,8 +158,8 @@ const Tours = () => {
                     )}
                   >
                     <div className="flex flex-row space-x-[8px]">
-                      <Icons.filterLines className="size-[24px] text-[#a6a6a6]" />
-                      <p>Популярные</p>
+                      <Icons.filterLines className="size-[24px]" />
+                      <p className="font-medium">Популярные</p>
                       <ChevronDown className="size-[24px] text-[#a6a6a6]" />
                     </div>
                   </button>
@@ -158,7 +174,7 @@ const Tours = () => {
           </div>
           <div className="h-[40px] w-full" />
           <div
-            className={cn("grid grid-cols-3 gap-[24px]", {
+            className={cn("grid grid-cols-2 lg:grid-cols-3 gap-[24px]", {
               "grid-cols-2": filtersOpen,
             })}
           >

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Icons } from "@/shared/assets/icons";
 import Footer from "@/components/footer";
 import SearchBlock from "@/components/search-block";
-import Tours from "@/components/ui/tours";
+import Tours from "@/components/tours";
 
 const ToursPage = () => {
   return (

@@ -20,9 +20,18 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import FastCheckTourModal from "@/components/fast-check-tour-modal";
+import { useQuery } from "@tanstack/react-query";
+import { getApiV1Tours } from "@/shared/api";
+import Link from "next/link";
 
 const Tours = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const { data: tours } = useQuery({
+    queryKey: ["tours"],
+    queryFn: () => getApiV1Tours(),
+  });
+  console.log(tours);
   return (
     <div className="container">
       <div className="gap-x-[12px] grid grid-cols-3">
@@ -36,15 +45,15 @@ const Tours = () => {
               />
             </div>
             <FiltersAccordion
-              type="single"
-              collapsible
+              type="multiple"
               className="w-full px-[20px]"
+              defaultChecked
             >
               <FiltersAccordionItem value="item-1">
                 <FiltersAccordionTrigger>
                   <div className="flex flex-row space-x-[12px] items-center">
-                    <Icons.tag className="size-[20px]" />
-                    <p className="text-[18px] font-pg">Выбранные</p>
+                    <Icons.tag />
+                    <p className="text-[20px] font-pg">Выбранные</p>
                   </div>
                 </FiltersAccordionTrigger>
                 <FiltersAccordionContent>
@@ -54,8 +63,8 @@ const Tours = () => {
               <FiltersAccordionItem value="item-2">
                 <FiltersAccordionTrigger>
                   <div className="flex flex-row space-x-[12px] items-center">
-                    <Icons.star className="size-[20px]" />
-                    <p className="text-[18px] font-pg">Популярное</p>
+                    <Icons.star />
+                    <p className="text-[20px] font-pg">Популярное</p>
                   </div>
                 </FiltersAccordionTrigger>
                 <FiltersAccordionContent>
@@ -65,8 +74,8 @@ const Tours = () => {
               <FiltersAccordionItem value="item-3">
                 <FiltersAccordionTrigger>
                   <div className="flex flex-row space-x-[12px] items-center">
-                    <Icons.map className="size-[20px]" />
-                    <p className="text-[18px] font-pg">Тип</p>
+                    <Icons.map />
+                    <p className="text-[20px] font-pg">Тип</p>
                   </div>
                 </FiltersAccordionTrigger>
                 <FiltersAccordionContent>
@@ -76,8 +85,8 @@ const Tours = () => {
               <FiltersAccordionItem value="item-4">
                 <FiltersAccordionTrigger>
                   <div className="flex flex-row space-x-[12px] items-center">
-                    <Icons.coins className="size-[20px]" />
-                    <p className="text-[18px] font-pg">Бюджет</p>
+                    <Icons.coins />
+                    <p className="text-[20px] font-pg">Бюджет</p>
                   </div>
                 </FiltersAccordionTrigger>
                 <FiltersAccordionContent>
@@ -89,16 +98,16 @@ const Tours = () => {
                   className="flex flex-row space-x-[12px] items-center"
                   htmlFor="garant"
                 >
-                  <Icons.pocket className="size-[20px]" />
-                  <p className="text-[18px] font-pg">Гарантия проведения</p>
+                  <Icons.pocket />
+                  <p className="text-[20px] font-pg">Гарантия проведения</p>
                 </label>
-                <Checkbox id="garant" />
+                <Checkbox id="garant" className="size-6" />
               </div>
               <FiltersAccordionItem value="item-5">
                 <FiltersAccordionTrigger>
                   <div className="flex flex-row space-x-[12px] items-center">
-                    <Icons.users className="size-[20px]" />
-                    <p className="text-[18px] font-pg">Возраст группы</p>
+                    <Icons.users />
+                    <p className="text-[20px] font-pg">Возраст группы</p>
                   </div>
                 </FiltersAccordionTrigger>
                 <FiltersAccordionContent>
@@ -110,10 +119,10 @@ const Tours = () => {
                   className="flex flex-row space-x-[12px] items-center"
                   htmlFor="withChilds"
                 >
-                  <Icons.babybold className="size-[20px]" />
-                  <p className="text-[18px] font-pg">Можно с детьми</p>
+                  <Icons.babybold />
+                  <p className="text-[20px] font-pg">Можно с детьми</p>
                 </label>
-                <Checkbox id="withChilds" />
+                <Checkbox id="withChilds" className="size-6" />
               </div>
             </FiltersAccordion>
           </div>
@@ -174,7 +183,7 @@ const Tours = () => {
           </div>
           <div className="h-[40px] w-full" />
           <div
-            className={cn("grid grid-cols-2 lg:grid-cols-3 gap-[24px]", {
+            className={cn("grid grid-cols-3 gap-[24px]", {
               "grid-cols-2": filtersOpen,
             })}
           >
@@ -208,7 +217,10 @@ const Tours = () => {
                     fill
                   />
                 </div>
-                <div className="p-[16px] flex flex-col items-center justify-between h-[206px]">
+                <Link
+                  href={`/tours/${"123"}`}
+                  className="p-[16px] flex flex-col items-center justify-between h-[206px]"
+                >
                   <div className="gap-y-[8px] flex flex-col">
                     <h4 className="line-clamp-2 text-[20px] font-pg leading-tight">
                       Две столицы: Москва — Санкт-Петербург «Семейные каникулы»
@@ -240,7 +252,7 @@ const Tours = () => {
                       Купить билеты
                     </p>
                   </Button>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

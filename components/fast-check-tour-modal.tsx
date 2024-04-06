@@ -9,7 +9,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { Clock, ClockIcon } from "lucide-react";
+import { Clock, ClockIcon, HeartIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const FastCheckTourModal = ({ id }: { id: string }) => {
   return (
@@ -33,7 +34,7 @@ const FastCheckTourModal = ({ id }: { id: string }) => {
           <CarouselPrevious variant="default" />
           <CarouselNext variant="default" />
         </Carousel>
-        <div className="w-[544px] h-full p-[24px]">
+        <div className="w-[544px] h-full p-[24px] flex flex-col justify-between">
           <div className="flex flex-col space-y-[24px]">
             <div className="w-full flex justify-between">
               <p className="text-[24px] w-[392px] font-pg leading-tight">
@@ -46,15 +47,15 @@ const FastCheckTourModal = ({ id }: { id: string }) => {
             <div className="flex flex-row space-x-[24px]">
               <div className="inline-flex items-center space-x-[8px]">
                 <ClockIcon className="size-[15px] text-[#9999a9]" />
-                <p className="text-[12px]">6 ночей</p>
+                <p className="text-[14px]">6 ночей</p>
               </div>
               <div className="inline-flex items-center space-x-[8px]">
-                <p className="text-[12px] text-[#9999a9]">Активность: </p>
-                <p className="text-[12px]">Низкая</p>
+                <p className="text-[14px] text-[#9999a9]">Активность: </p>
+                <p className="text-[14px]">Низкая</p>
               </div>
               <div className="inline-flex items-center space-x-[8px]">
-                <p className="text-[12px] text-[#9999a9]">Комфорт: </p>
-                <p className="text-[12px]">Выше среднего</p>
+                <p className="text-[14px] text-[#9999a9]">Комфорт: </p>
+                <p className="text-[14px]">Выше среднего</p>
               </div>
             </div>
             <div>
@@ -72,17 +73,35 @@ const FastCheckTourModal = ({ id }: { id: string }) => {
               </p>
             </div>
             <div className="flex flex-row flex-wrap gap-[8px]">
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[10px] font-medium">
+              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
                 Автобусные
               </div>
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[10px] font-medium">
+              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
                 Автобусные
               </div>
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[10px] font-medium">
+              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
                 Автобусные
               </div>
             </div>
-            <div></div>
+          </div>
+          <div className="grid grid-cols-2 gap-x-[12px]">
+            <Button className="flex flex-col h-[48px]">
+              <p className="font-medium leading-tight text-[16px]">
+                от 45 660 ₽
+              </p>
+              <p className="font-medium text-[#1d1d1d]/50 text-[12px] leading-tight">
+                Купить билеты
+              </p>
+            </Button>
+            <Button
+              className="h-[48px] space-x-[8px] bg-[#EBEBEB]"
+              variant="secondary"
+            >
+              <p className="font-medium leading-tight text-[16px]">
+                В избранное
+              </p>
+              <HeartIcon />
+            </Button>
           </div>
         </div>
       </div>

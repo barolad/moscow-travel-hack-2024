@@ -15,17 +15,120 @@ import { useState } from "react";
 import { ChevronDown, MinusIcon, PlusIcon } from "lucide-react";
 import { normalizeCountForm } from "@/shared/lib/utils";
 import { ru } from "date-fns/locale";
+import { useQuery } from "@tanstack/react-query";
+import { getApiV1CitiesPrefix } from "@/shared/api";
+import { debounce } from "next/dist/server/utils";
+import * as React from "react";
 
 const SearchBlock = () => {
   const [date, setDate] = useState<Date>();
   const [days, setDays] = useState<number>(7);
   const [adults, setAdults] = useState<number>(2);
   const [child, setChild] = useState<number>(0);
+
+  const [fromInputSearchValue, setFromInputSearchValue] = useState("");
+  const [fromInputValue, setFromInputValue] = useState("");
+  const [fromInputId, setFromInputId] = useState(0);
+  const [fromPopupOpen, setFromPopupOpen] = useState(false);
+
+  const fromDebounced = debounce(
+    (args) => setFromInputSearchValue(args.target.value),
+    100,
+  );
+
+  const { data: fromInputResult } = useQuery({
+    queryKey: ["from-input", fromInputSearchValue],
+    queryFn: () =>
+      getApiV1CitiesPrefix(
+        fromInputSearchValue ? fromInputSearchValue : "Москва",
+      ),
+    retry: false,
+  });
+
+  const [toInputSearchValue, setToInputSearchValue] = useState("");
+  const [toInputValue, setToInputValue] = useState("");
+  const [toInputId, setToInputId] = useState(0);
+  const [toPopupOpen, setToPopupOpen] = useState(false);
+
+  const toDebounced = debounce(
+    (args) => setToInputSearchValue(args.target.value),
+    100,
+  );
+
+  const { data: toInputResult } = useQuery({
+    queryKey: ["from-input", toInputSearchValue],
+    queryFn: () =>
+      getApiV1CitiesPrefix(toInputSearchValue ? toInputSearchValue : "Москва"),
+    retry: false,
+  });
+
   return (
     <div className="h-[80px] bg-[#f5f5f5] rounded-[20px] p-[16px] flex flex-row items-center justify-between gap-[16px]">
       <div className="*:h-[48px] flex-1 overflow-hidden rounded-[12px] grid grid-cols-5 border-neutral-300 border divide-x divide-neutral-300">
-        <SearchInput placeholder="Откуда" />
-        <SearchInput placeholder="Куда" />
+        <Popover open={fromPopupOpen}>
+          <PopoverTrigger asChild>
+            <input
+              onMouseDown={() => setFromPopupOpen(true)}
+              onBlur={() => setFromPopupOpen(false)}
+              type="text"
+              placeholder="Откуда"
+              onChange={(event) => {
+                fromDebounced(event);
+                setFromInputValue(event.target.value);
+              }}
+              value={fromInputValue}
+              className="flex h-10 w-full bg-background text-accent-foreground placeholder:text-[#a6a6a6] px-3 py-2 font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </PopoverTrigger>
+          <PopoverContent align="start">
+            <div className="flex flex-col space-y-[8px] ">
+              {fromInputResult?.data?.map((city) => (
+                <div
+                  key={city.id}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setFromInputId(city.id || 1);
+                    setFromInputValue(city.name || "");
+                  }}
+                >
+                  {city.name}
+                </div>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+        <Popover open={toPopupOpen}>
+          <PopoverTrigger asChild>
+            <input
+              onMouseDown={() => setToPopupOpen(true)}
+              onBlur={() => setToPopupOpen(false)}
+              type="text"
+              placeholder="Куда"
+              onChange={(event) => {
+                toDebounced(event);
+                setToInputValue(event.target.value);
+              }}
+              value={toInputValue}
+              className="flex h-10 w-full bg-background text-accent-foreground placeholder:text-[#a6a6a6] px-3 py-2 font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </PopoverTrigger>
+          <PopoverContent align="start">
+            <div className="flex flex-col space-y-[8px] ">
+              {toInputResult?.data?.map((city) => (
+                <div
+                  key={city.id}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setToInputId(city.id || 1);
+                    setToInputValue(city.name || "");
+                  }}
+                >
+                  {city.name}
+                </div>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
         <Popover>
           <PopoverTrigger asChild>
             <button

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/shared/assets/globals.css";
 import { protoGrotesk, suisse } from "@/shared/assets/fonts";
 import { cn } from "@/lib/utils";
+import ClientProvider from "@/components/client-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +23,7 @@ export default function RootLayout({
           protoGrotesk.variable,
         )}
       >
-        {children}
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );

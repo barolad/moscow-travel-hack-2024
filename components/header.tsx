@@ -26,7 +26,7 @@ const MenuItem = ({ title, icon, hidden = false }: MenuItemProps) => (
 
 const Header = () => {
   return (
-    <div className="h-[72px] container sticky top-0 inset-x-0 bg-white z-40">
+    <div className="h-[72px] container sticky top-0 inset-x-0 bg-white z-40 overflow-hidden">
       <div className="flex flex-row justify-between items-center py-[12px]">
         <div className="flex flex-row space-x-[20px] h-[48px] items-center">
           <div className="flex flex-row space-x-[16px]">

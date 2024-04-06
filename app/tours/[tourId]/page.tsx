@@ -2,7 +2,13 @@
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { ChevronDown, ChevronRightIcon, HeartIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRightIcon,
+  HeartIcon,
+  MinusIcon,
+  PlusIcon,
+} from "lucide-react";
 import { Icons } from "@/shared/assets/icons";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -16,6 +22,16 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getApiV1ToursId } from "@/shared/api";
 import { normalizeCountForm } from "@/shared/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { Calendar } from "@/components/ui/calendar";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 
 const ToolContent = () => (
   <TooltipProvider>
@@ -66,6 +82,9 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
+  const [date, setDate] = useState<Date>();
+  const [adults, setAdults] = useState<number>(1);
+  const [child, setChild] = useState<number>(0);
 
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
 
@@ -176,7 +195,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
           ))}
         </div>
         <div className="h-[40px] w-full" />
-        <div className="flex flex-row">
+        <div className="flex flex-row space-x-[24px]">
           <div className="flex-1">
             <div>
               <p
@@ -341,7 +360,140 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
             </div>
           </div>
 
-          <div className="w-[392px]"></div>
+          <div className="w-[392px] h-full">
+            <div className="sticky top-0 inset-x-0 p-[32px] grid bg-[#F5F5F5] rounded-[16px]">
+              <p className="text-[24px] font-pg mb-[8px]">26 500 ₽</p>
+              <p className="text-[#747474] mb-[16px]">4 400 ₽ / день 8 дней</p>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    className={cn(
+                      "flex flex-row mb-[16px] rounded-[16px] border border-border bg-white items-center px-[8px] py-[12px] justify-start text-left",
+                      !date && "text-muted-foreground",
+                    )}
+                  >
+                    {date ? (
+                      <span className="font-medium text-accent-foreground">
+                        {format(date, "PPP", { locale: ru })}
+                      </span>
+                    ) : (
+                      <div className="text-[#a6a6a6] flex justify-between w-full items-center">
+                        <span className="font-medium">Дата</span>
+                        <Icons.calendar className="size-[24px]" />
+                      </div>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    className={cn(
+                      "flex flex-row bg-white rounded-[16px] border border-border items-center mb-[16px]  px-[8px] py-[12px] justify-start text-left",
+                      !date && "text-muted-foreground",
+                    )}
+                  >
+                    {adults && (
+                      <div className="flex justify-between w-full items-center">
+                        <span className="font-medium text-accent-foreground">
+                          {adults + child}{" "}
+                          {child > 0
+                            ? normalizeCountForm(adults + child, [
+                                "гость",
+                                "гостя",
+                                "гостей",
+                              ])
+                            : normalizeCountForm(adults, [
+                                "взрослый",
+                                "взрослых",
+                                "взрослых",
+                              ])}
+                        </span>
+                        <ChevronDown className="size-[24px] text-[#a6a6a6]" />
+                      </div>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <div className="w-[324px] rounded-[12px] p-[24px] flex flex-col space-y-[16px]">
+                    <div className="flex flex-row justify-between items-center">
+                      <div className="flex flex-col">
+                        <p className="font-medium">Взрослые</p>
+                        <p className="text-[14px] text-[#a6a6a6]">от 18 лет</p>
+                      </div>
+                      <div className="flex h-[40px] px-[8px] space-x-[8px] justify-between items-center rounded-[12px] border border-border">
+                        <MinusIcon
+                          className={cn("size-[20px]", {
+                            "opacity-50": adults <= 1,
+                          })}
+                          onClick={() =>
+                            setAdults((prevState) => {
+                              if (prevState <= 1) return prevState;
+                              return prevState - 1;
+                            })
+                          }
+                        />
+                        <p className="font-medium w-[20px] text-center">
+                          {adults}
+                        </p>
+                        <PlusIcon
+                          className={cn("size-[20px]", {
+                            "opacity-50 cursor-not-allowed": adults >= 4,
+                          })}
+                          onClick={() =>
+                            setAdults((prevState) => {
+                              if (prevState >= 4) return prevState;
+                              return prevState + 1;
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-row justify-between items-center">
+                      <p className="font-medium">Дети</p>
+                      <div className="flex h-[40px] px-[8px] space-x-[8px] justify-between items-center rounded-[12px] border border-border">
+                        <MinusIcon
+                          className={cn("size-[20px]", {
+                            "opacity-50": child <= 0,
+                          })}
+                          onClick={() =>
+                            setChild((prevState) => {
+                              if (prevState <= 0) return prevState;
+                              return prevState - 1;
+                            })
+                          }
+                        />
+                        <p className="font-medium w-[20px] text-center">
+                          {child}
+                        </p>
+                        <PlusIcon
+                          className={cn("size-[20px]", {
+                            "opacity-50 cursor-not-allowed": child >= 4,
+                          })}
+                          onClick={() =>
+                            setChild((prevState) => {
+                              if (prevState >= 4) return prevState;
+                              return prevState + 1;
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Button className="mb-[16px]">Купить тур</Button>
+              <p className="text-[#747474] text-center">Гарантия проведения</p>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

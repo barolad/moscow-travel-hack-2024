@@ -21,7 +21,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import FastCheckTourModal from "@/components/fast-check-tour-modal";
 import { useQuery } from "@tanstack/react-query";
-import { getApiV1Tours } from "@/shared/api";
+import { getApiV1Tours, getApiV1ToursHot } from "@/shared/api";
 import Link from "next/link";
 
 const Tours = () => {
@@ -31,7 +31,6 @@ const Tours = () => {
     queryKey: ["tours"],
     queryFn: () => getApiV1Tours(),
   });
-  console.log(tours);
   return (
     <div className="container">
       <div className="gap-x-[12px] grid grid-cols-3">

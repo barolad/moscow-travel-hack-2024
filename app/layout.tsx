@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import "@/shared/assets/globals.css";
+import { protoGrotesk, suisse } from "@/shared/assets/fonts";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ru">
+      <body
+        className={cn(
+          "min-h-screen bg-background font-suisse antialiased",
+          suisse.variable,
+          protoGrotesk.variable,
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }

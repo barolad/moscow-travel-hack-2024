@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useMaskito } from "@maskito/react";
 import options from "@/lib/mask";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MinusIcon, PlusIcon } from "lucide-react";
+import { ClockIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import {
@@ -39,10 +39,7 @@ const OrderTourPage = ({
   });
 
   const [adults, setAdults] = useState<number>(1);
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
   const maskedInputRef = useMaskito({ options });
 
   if (!tour?.data) return;
@@ -186,9 +183,8 @@ const OrderTourPage = ({
                             format(date.from, "LLL dd, y", { locale: ru })
                           )
                         ) : (
-                          <div className="text-[#a6a6a6] flex justify-between w-full items-center">
+                          <div className="text-[#d9d9d9] flex justify-between space-x-[8px] w-full items-center">
                             <span className="font-medium">Выберите даты</span>
-                            <Icons.calendar className="size-[24px]" />
                           </div>
                         )}
                       </span>
@@ -210,24 +206,28 @@ const OrderTourPage = ({
             <h1 className="text-[20px] font-pg">Данные участников тура</h1>
             <div className="h-[24px] w-full" />
             {Array.from({ length: adults }).map((el, index) => (
-              <div className="grid gap-y-[16px]">
-                <div className="space-y-[8px]">
-                  <Label>Имя</Label>
-                  <Input
-                    placeholder="Имя"
-                    className="!h-[48px] !placeholder-[#d9d9d9] !rounded-[12px]"
-                  />
-                </div>
-                <div className="space-y-[8px]">
-                  <Label>Фамилия</Label>
-                  <Input
-                    placeholder="Фамилия"
-                    className="!h-[48px] !placeholder-[#d9d9d9] !rounded-[12px]"
-                  />
+              <div key={index} className="mb-[24px]">
+                <h1 className="text-[20px] font-pg">{index + 1} учатник</h1>
+                <div className="h-[24px] w-full" />
+                <div className="grid gap-y-[16px]">
+                  <div className="space-y-[8px]">
+                    <Label>Имя</Label>
+                    <Input
+                      placeholder="Имя"
+                      className="!h-[48px] !placeholder-[#d9d9d9] !rounded-[12px]"
+                    />
+                  </div>
+                  <div className="space-y-[8px]">
+                    <Label>Фамилия</Label>
+                    <Input
+                      placeholder="Фамилия"
+                      className="!h-[48px] !placeholder-[#d9d9d9] !rounded-[12px]"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
-            <div className="space-y-[8px]">
+            <div className="space-y-[8px] mb-[110px]">
               <Label>Комментарий</Label>
               <Input
                 placeholder="Напишите сообщение (по желанию)"
@@ -235,10 +235,18 @@ const OrderTourPage = ({
               />
             </div>
           </div>
-          <div></div>
+          <div className="">
+            <div className="flex flex-col space-y-[16px]">
+              <p className="font-pg text-[20px]">Информация</p>
+              <div className="inline-flex items-center space-x-[8px]">
+                <ClockIcon className="size-[15px] text-[#9999a9]" />
+                <p className="text-[14px]">6 ночей</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>{" "}
-      <Footer />{" "}
+      </div>
+      <Footer />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Icons } from "@/shared/assets/icons";
 import { ReactNode } from "react";
 import { HeartIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface MenuItemProps {
   title?: string;
@@ -29,14 +30,14 @@ const Header = () => {
     <div className="h-[72px] container sticky top-0 inset-x-0 bg-white z-40 overflow-hidden">
       <div className="flex flex-row justify-between items-center py-[12px]">
         <div className="flex flex-row space-x-[20px] h-[48px] items-center">
-          <div className="flex flex-row space-x-[16px]">
+          <Link href="/" className="flex flex-row space-x-[16px]">
             <Icons.logo className="" />
             <div className="bg-neutral-300 w-[2px] h-[28px]" />
             <div className="flex space-x-[16px]">
               <Icons.logorussia className="" />
               <Icons.chevron className="rotate-90" />
             </div>
-          </div>
+          </Link>
           <div className="flex flex-row">
             <MenuItem title="Меню" icon={<Icons.burgermenu />} />
             <MenuItem title="Бонусы" icon={<Icons.bonus />} />

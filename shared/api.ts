@@ -10,6 +10,89 @@ import type {
   AxiosRequestConfig,
   AxiosResponse
 } from 'axios'
+export type GetApiV1ToursRecommendationsParams = {
+/**
+ * From location name
+ */
+fromName?: string;
+/**
+ * To location name
+ */
+toName?: string;
+/**
+ * Date of the tour
+ */
+whenDate?: string;
+/**
+ * Number of nights in the tour
+ */
+nightsCnt?: number;
+/**
+ * Number of adults
+ */
+adults?: number;
+/**
+ * Number of children
+ */
+childrens?: number;
+/**
+ * Type of the tour
+ */
+tourType?: string;
+/**
+ * Minimum price
+ */
+priceFrom?: string;
+/**
+ * Maximum price
+ */
+priceTo?: string;
+/**
+ * Minimum rating
+ */
+rating?: number;
+/**
+ * Guaranteed availability
+ */
+guaranteed?: boolean;
+/**
+ * Flight is included
+ */
+withFlight?: boolean;
+/**
+ * Accomodation is included
+ */
+withAcc?: boolean;
+/**
+ * Nutrition is included
+ */
+withFood?: boolean;
+/**
+ * The tour takes place on a weekend
+ */
+dayOff?: boolean;
+/**
+ * Low cost tour
+ */
+lowCost?: boolean;
+/**
+ * Age group ID
+ */
+ageGroupId?: number;
+/**
+ * Tour difficulty level
+ */
+difficulty?: number;
+/**
+ * Comfort level
+ */
+comfort?: number;
+/**
+ * Food ID
+ */
+foodId?: number;
+};
+
 export type GetApiV1ToursHotParams = {
 /**
  * From location name
@@ -97,19 +180,19 @@ export type GetApiV1ToursParams = {
 /**
  * From location name
  */
-fromName?: string;
+from_name?: string;
 /**
  * To location name
  */
-toName?: string;
+to_name?: string;
 /**
  * Date of the tour
  */
-whenDate?: string;
+when?: string;
 /**
  * Number of nights in the tour
  */
-nightsCnt?: number;
+nights_count?: number;
 /**
  * Number of adults
  */
@@ -119,17 +202,17 @@ adults?: number;
  */
 childrens?: number;
 /**
- * Type of the tour
+ * Tags of the tour, multiple values separated by commas
  */
-tourType?: string;
+tags?: unknown[];
 /**
  * Minimum price
  */
-priceFrom?: string;
+price_from?: string;
 /**
  * Maximum price
  */
-priceTo?: string;
+price_to?: string;
 /**
  * Minimum rating
  */
@@ -141,27 +224,27 @@ guaranteed?: boolean;
 /**
  * Flight is included
  */
-withFlight?: boolean;
+with_flight?: boolean;
 /**
  * Accomodation is included
  */
-withAcc?: boolean;
+with_acc?: boolean;
 /**
  * Nutrition is included
  */
-withFood?: boolean;
+with_food?: boolean;
 /**
  * The tour takes place on a weekend
  */
-dayOff?: boolean;
+day_off?: boolean;
 /**
  * Low cost tour
  */
-lowCost?: boolean;
+low_cost?: boolean;
 /**
  * Age group ID
  */
-ageGroupId?: number;
+age_group?: number;
 /**
  * Tour difficulty level
  */
@@ -173,7 +256,7 @@ comfort?: number;
 /**
  * Food ID
  */
-foodId?: number;
+food_id?: number;
 };
 
 export type GetApiV1CitiesPrefixParams = {
@@ -188,6 +271,11 @@ export interface GithubComKldd0TravelHack2024InternalEntityTourDate {
   start?: string;
 }
 
+export interface GithubComKldd0TravelHack2024InternalEntityMediaType {
+  src?: string;
+  type?: string;
+}
+
 export interface GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView {
   category?: string;
   id?: number;
@@ -200,36 +288,21 @@ export interface GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView {
   title?: string;
 }
 
-export interface GithubComKldd0TravelHack2024InternalEntityReview {
-  /** автор отзыва */
-  author?: string;
-  /** частота посещения */
-  frequency?: string;
-  /** рейтинг */
-  liked?: string[];
-  /** местный? */
-  local_resident?: boolean;
-  /** недостатки */
-  negative?: string;
-  /** достоинства */
-  positive?: string;
-  /** id тура */
-  tour_id?: number;
-  /** тип отдыха (в одиночку. с детьми...) */
-  type?: string;
-  /** ссылка на видео */
-  video?: string;
-}
-
-export interface GithubComKldd0TravelHack2024InternalEntityMediaType {
-  src?: string;
-  type?: string;
-}
-
 export interface GithubComKldd0TravelHack2024InternalEntityMediaSectors {
   acc?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
   head?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
   program?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
+}
+
+export interface GithubComKldd0TravelHack2024InternalEntityDTOReview {
+  frequency?: string;
+  liked?: string[];
+  local_resident?: boolean;
+  negative_comment?: string;
+  positive_comment?: string;
+  type?: string;
+  username?: string;
+  video?: GithubComKldd0TravelHack2024InternalEntityMediaType;
 }
 
 export interface GithubComKldd0TravelHack2024InternalEntityDTOTour {
@@ -249,7 +322,7 @@ export interface GithubComKldd0TravelHack2024InternalEntityDTOTour {
   not_included?: string[];
   program?: string[];
   rating?: number;
-  reviews?: GithubComKldd0TravelHack2024InternalEntityReview[];
+  reviews?: GithubComKldd0TravelHack2024InternalEntityDTOReview[];
   tags?: string[];
   title?: string;
   tour_dates?: GithubComKldd0TravelHack2024InternalEntityTourDate[];
@@ -277,7 +350,7 @@ export const getApiV1CitiesPrefix = <TData = AxiosResponse<GithubComKldd0TravelH
     params?: GetApiV1CitiesPrefixParams, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axios.get(
-      `http://185.104.251.6:8080/api/v1/cities/${prefix}`,{
+      `/api/v1/cities/${prefix}`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -291,7 +364,7 @@ export const getApiV1Tours = <TData = AxiosResponse<GithubComKldd0TravelHack2024
     params?: GetApiV1ToursParams, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axios.get(
-      `http://185.104.251.6:8080/api/v1/tours`,{
+      `/api/v1/tours`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -305,7 +378,21 @@ export const getApiV1ToursHot = <TData = AxiosResponse<GithubComKldd0TravelHack2
     params?: GetApiV1ToursHotParams, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axios.get(
-      `http://185.104.251.6:8080/api/v1/tours/hot`,{
+      `/api/v1/tours/hot`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+
+/**
+ * Get recommended tours according to search and filter params
+ * @summary Get reccomended tours according to search and filter params
+ */
+export const getApiV1ToursRecommendations = <TData = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>>(
+    params?: GetApiV1ToursRecommendationsParams, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axios.get(
+      `/api/v1/tours/recommendations`,{
     ...options,
         params: {...params, ...options?.params},}
     );
@@ -319,11 +406,12 @@ export const getApiV1ToursId = <TData = AxiosResponse<GithubComKldd0TravelHack20
     id: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axios.get(
-      `http://185.104.251.6:8080/api/v1/tours/${id}`,options
+      `/api/v1/tours/${id}`,options
     );
   }
 
 export type GetApiV1CitiesPrefixResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityCity[]>
 export type GetApiV1ToursResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>
 export type GetApiV1ToursHotResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>
+export type GetApiV1ToursRecommendationsResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>
 export type GetApiV1ToursIdResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityDTOTour>

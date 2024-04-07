@@ -3,7 +3,6 @@ module.exports = {
     input: "http://185.104.251.6:8080/swagger//doc.json",
     output: {
       target: "./shared/api.ts",
-      baseUrl: "http://185.104.251.6:8080",
     },
   },
 };

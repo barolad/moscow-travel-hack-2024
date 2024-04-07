@@ -188,20 +188,16 @@ export interface GithubComKldd0TravelHack2024InternalEntityTourDate {
   start?: string;
 }
 
-export interface GithubComKldd0TravelHack2024InternalEntityTag {
-  title?: string;
-}
-
 export interface GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView {
   category?: string;
   id?: number;
   is_liked?: boolean;
   location?: string;
-  media?: GithubComKldd0TravelHack2024InternalEntityImage[];
-  night_count?: number;
+  media?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
+  nights_count?: number;
   rating?: number;
+  tags?: string[];
   title?: string;
-  type?: GithubComKldd0TravelHack2024InternalEntityTag[];
 }
 
 export interface GithubComKldd0TravelHack2024InternalEntityReview {
@@ -225,12 +221,18 @@ export interface GithubComKldd0TravelHack2024InternalEntityReview {
   video?: string;
 }
 
-export interface GithubComKldd0TravelHack2024InternalEntityImage {
+export interface GithubComKldd0TravelHack2024InternalEntityMediaType {
   src?: string;
   type?: string;
 }
 
-export interface GithubComKldd0TravelHack2024InternalEntityTour {
+export interface GithubComKldd0TravelHack2024InternalEntityMediaSectors {
+  acc?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
+  head?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
+  program?: GithubComKldd0TravelHack2024InternalEntityMediaType[];
+}
+
+export interface GithubComKldd0TravelHack2024InternalEntityDTOTour {
   category?: string;
   comfort_level?: string;
   description?: string;
@@ -241,17 +243,16 @@ export interface GithubComKldd0TravelHack2024InternalEntityTour {
   included?: string[];
   is_liked?: boolean;
   location?: string;
-  media?: GithubComKldd0TravelHack2024InternalEntityImage[];
-  night_count?: number;
+  map?: string;
+  media?: GithubComKldd0TravelHack2024InternalEntityMediaSectors;
+  nights_count?: number;
   not_included?: string[];
   program?: string[];
   rating?: number;
-  /** массиов отзывов */
   reviews?: GithubComKldd0TravelHack2024InternalEntityReview[];
+  tags?: string[];
   title?: string;
-  /** must be updated every req */
   tour_dates?: GithubComKldd0TravelHack2024InternalEntityTourDate[];
-  type?: GithubComKldd0TravelHack2024InternalEntityTag[];
 }
 
 export interface GithubComKldd0TravelHack2024InternalEntityCity {
@@ -314,7 +315,7 @@ export const getApiV1ToursHot = <TData = AxiosResponse<GithubComKldd0TravelHack2
  * Get tour by id
  * @summary Get tour by id
  */
-export const getApiV1ToursId = <TData = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityTour>>(
+export const getApiV1ToursId = <TData = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityDTOTour>>(
     id: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axios.get(
@@ -325,4 +326,4 @@ export const getApiV1ToursId = <TData = AxiosResponse<GithubComKldd0TravelHack20
 export type GetApiV1CitiesPrefixResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityCity[]>
 export type GetApiV1ToursResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>
 export type GetApiV1ToursHotResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntitySimplifiedTourView[]>
-export type GetApiV1ToursIdResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityTour>
+export type GetApiV1ToursIdResult = AxiosResponse<GithubComKldd0TravelHack2024InternalEntityDTOTour>

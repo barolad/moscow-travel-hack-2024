@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, randomNumberInRange } from "@/lib/utils";
 import { ChevronDown, XIcon } from "lucide-react";
 import { useState } from "react";
 import {
@@ -23,6 +23,7 @@ import FastCheckTourModal from "@/components/fast-check-tour-modal";
 import { useQuery } from "@tanstack/react-query";
 import { getApiV1Tours, getApiV1ToursHot } from "@/shared/api";
 import Link from "next/link";
+import { normalizeCountForm } from "@/shared/lib/utils";
 
 const Tours = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -31,6 +32,7 @@ const Tours = () => {
     queryKey: ["tours"],
     queryFn: () => getApiV1Tours(),
   });
+
   return (
     <div className="container">
       <div className="gap-x-[12px] grid grid-cols-3">
@@ -178,7 +180,9 @@ const Tours = () => {
                 ></PopoverContent>
               </Popover>
             </div>
-            <p className="text-[#a6a6a6] text-[16px]">Найдено 598 туров</p>
+            <p className="text-[#a6a6a6] text-[16px]">
+              Найдено {tours?.data?.length} туров
+            </p>
           </div>
           <div className="h-[40px] w-full" />
           <div
@@ -186,12 +190,17 @@ const Tours = () => {
               "grid-cols-2": filtersOpen,
             })}
           >
-            {Array.from({ length: 10 }).map(() => (
-              <div className="rounded-[20px] overflow-hidden bg-[#f5f5f5]">
+            {tours?.data?.map((el, index) => (
+              <div
+                className="rounded-[20px] overflow-hidden bg-[#f5f5f5]"
+                key={el.id}
+              >
                 <div className="h-[238px] w-full relative">
                   <div className="absolute top-[16px] inset-x-[16px] h-[40px] flex justify-between items-center">
                     <div className="size-[40px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
-                      <p className="text-[12px] text-white font-medium">8.8</p>
+                      <p className="text-[12px] text-white font-medium">
+                        {el.rating}
+                      </p>
                     </div>
                     <div className="size-[40px] z-30 text-white rounded-[8px] backdrop-blur-sm overflow-hidden bg-[#1d1d1d]/30 flex items-center justify-center">
                       <Icons.heart className="fill-none size-[24px] text-white" />
@@ -207,31 +216,36 @@ const Tours = () => {
                         </div>
                       </div>
                     </DialogTrigger>
-                    <FastCheckTourModal id="1" />
+                    <FastCheckTourModal id={el.id} />
                   </Dialog>
                   <Image
-                    src="/Rectangle-6274-3.webp"
+                    src={el.media[0].src}
                     alt=""
                     className="object-cover z-0"
                     fill
                   />
                 </div>
                 <Link
-                  href={`/tours/${"123"}`}
+                  href={`/tours/${el.id}`}
                   className="p-[16px] flex flex-col items-center justify-between h-[206px]"
                 >
                   <div className="gap-y-[8px] flex flex-col">
                     <h4 className="line-clamp-2 text-[20px] font-pg leading-tight">
-                      Две столицы: Москва — Санкт-Петербург «Семейные каникулы»
+                      {el.title}
                     </h4>
                     <div className="flex flex-wrap gap-x-[12px] gap-y-[4px] text-[12px]">
                       <div className="inline-flex items-center gap-1">
                         <Icons.mapPin className="size-[16px] fill-none" />
-                        Санкт-Петербург
+                        {el.location}
                       </div>
                       <div className="inline-flex items-center gap-1">
                         <Icons.clockFastForward className="size-[16px] fill-none" />
-                        2 ночи
+                        {el.nights_count}{" "}
+                        {normalizeCountForm(el.nights_count, [
+                          "ночь",
+                          "ночи",
+                          "ночей",
+                        ])}
                       </div>
                       <div className="inline-flex items-center gap-1">
                         <Icons.mountains className="size-[16px] fill-none" />
@@ -239,13 +253,13 @@ const Tours = () => {
                       </div>
                       <div className="inline-flex items-center gap-1">
                         <Icons.openBook className="size-[16px] fill-none" />
-                        Автобусный, пешеходный
+                        {el.tags.map((el) => el + " • ")}
                       </div>
                     </div>
                   </div>
                   <Button className="h-[48px] w-full flex flex-col">
                     <p className="font-medium leading-tight text-[16px]">
-                      от 45 660 ₽
+                      от {randomNumberInRange(8000, 50000)} ₽
                     </p>
                     <p className="font-medium text-[#1d1d1d]/50 text-[12px] leading-tight">
                       Купить билеты

@@ -11,8 +11,18 @@ import {
 import Image from "next/image";
 import { Clock, ClockIcon, HeartIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getApiV1ToursId } from "@/shared/api";
+import { normalizeCountForm } from "@/shared/lib/utils";
 
-const FastCheckTourModal = ({ id }: { id: string }) => {
+const FastCheckTourModal = ({ id }: { id: number }) => {
+  const { data: tour } = useQuery({
+    queryKey: ["one_tour", id],
+    queryFn: () => getApiV1ToursId(id),
+    retry: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
   return (
     <DialogContent className="p-0 h-[600px] w-[1064px] overflow-hidden">
       <div className="h-full flex flex-row">
@@ -38,16 +48,25 @@ const FastCheckTourModal = ({ id }: { id: string }) => {
           <div className="flex flex-col space-y-[24px]">
             <div className="w-full flex justify-between">
               <p className="text-[24px] w-[392px] font-pg leading-tight">
-                Две столицы: Москва — Санкт-Петербург «Семейные каникулы»
+                {tour?.data?.title}
               </p>
               <div className="size-[40px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
-                <p className="text-[12px] text-white font-medium">8.8</p>
+                <p className="text-[12px] text-white font-medium">
+                  {tour?.data?.rating}
+                </p>
               </div>
             </div>
             <div className="flex flex-row space-x-[24px]">
               <div className="inline-flex items-center space-x-[8px]">
                 <ClockIcon className="size-[15px] text-[#9999a9]" />
-                <p className="text-[14px]">6 ночей</p>
+                <p className="text-[14px]">
+                  {tour?.data?.nights_count}{" "}
+                  {normalizeCountForm(tour?.data?.nights_count, [
+                    "ночь",
+                    "ночи",
+                    "ночей",
+                  ])}
+                </p>
               </div>
               <div className="inline-flex items-center space-x-[8px]">
                 <p className="text-[14px] text-[#9999a9]">Активность: </p>

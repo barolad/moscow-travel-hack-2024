@@ -255,10 +255,13 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                     <ToolContent />
                   </div>
 
-                  <div className="inline-flex text-[#0370C7] items-center mt-[8px]">
+                  <Link
+                    href="#marsh"
+                    className="inline-flex text-[#0370C7] items-center mt-[8px]"
+                  >
                     <p className="text-[14px]">Смотреть маршрут</p>
                     <ChevronRightIcon className="size-[16px]" />
-                  </div>
+                  </Link>
                 </div>
                 <div className="bg-[#F5F5F5] rounded-[12px] p-[16px] flex flex-col space-y-[8px] h-full justify-between">
                   <div className="text-[12px] text-[#888]">Комфорт</div>
@@ -268,10 +271,13 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                     <ToolContent />
                   </div>
 
-                  <div className="inline-flex text-[#0370C7] items-center mt-[8px]">
+                  <Link
+                    href="#otel"
+                    className="inline-flex text-[#0370C7] items-center mt-[8px]"
+                  >
                     <p className="text-[14px]">Место проживания</p>
                     <ChevronRightIcon className="size-[16px]" />
-                  </div>
+                  </Link>
                 </div>
                 <div className="bg-[#F5F5F5] rounded-[12px] p-[16px] flex flex-col space-y-[8px] h-full">
                   <div className="text-[12px] text-[#888]">Кто уже едет?</div>
@@ -420,7 +426,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                   </div>
                 </div>
               ))}
-              <div className="h-[40px] w-full" />
+              <div className="h-[40px] w-full" id="marsh" />
               <p className="font-pg text-[28px]">Маршрут на карте</p>
               <div className="h-[32px] w-full" />
               <iframe
@@ -429,7 +435,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                 width={808}
                 className="rounded-[20px] overflow-hidden"
               />
-              <div className="h-[40px] w-full" />
+              <div className="h-[40px] w-full" id="otel" />
               <p className="font-pg text-[28px]">Проживание</p>
               <div className="h-[32px] w-full" />
               <div className="grid grid-cols-4 grid-rows-3 gap-x-[24px] gap-y-[12px] h-[276px]">

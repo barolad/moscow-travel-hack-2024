@@ -84,7 +84,7 @@ const ToursPage = () => {
             <div className="absolute z-20 bottom-0 left-0 h-[160px] w-full bg-gradient-to-t from-black" />
             <div className="absolute z-30 bottom-0 left-0 h-[104px] w-full px-[12px] pt-[20px]">
               <p className="text-white font-semibold line-clamp-2 mb-[4px]">
-                Домашняя коллекция бла бла бла
+                Две столицы: Москва — Санкт-Петербург «Семейные каникулы»
               </p>
               <p className="font-medium text-white/80 text-[12px]">от 1000 ₽</p>
             </div>

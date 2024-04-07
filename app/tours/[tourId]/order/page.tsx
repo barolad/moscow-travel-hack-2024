@@ -15,11 +15,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   CalendarIcon,
   ClockIcon,
+  MessageCircleWarningIcon,
   MinusIcon,
   PlusIcon,
   UsersIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, randomNumberInRange } from "@/lib/utils";
 import { useState } from "react";
 import {
   Popover,
@@ -31,6 +32,7 @@ import { ru } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { normalizeCountForm } from "@/shared/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const OrderTourPage = ({
   params: { tourId },
@@ -242,7 +244,7 @@ const OrderTourPage = ({
               />
             </div>
           </div>
-          <div className="flex flex-col space-y-[24px]">
+          <div className="flex flex-col space-y-[24px] w-[472px]">
             <div className="flex flex-col space-y-[16px]">
               <p className="font-pg text-[20px] leading-none">Информация</p>
               <div className="inline-flex items-center space-x-[8px]">
@@ -273,6 +275,28 @@ const OrderTourPage = ({
                 <p className="text-[14px] font-medium">5/20</p>
               </div>
             </div>
+            <div className="p-[16px] bg-[#E81C00]/5 flex flex-row rounded-[12px] mb-[24px]">
+              <div className="mt-[3px] mr-[8px]">
+                <MessageCircleWarningIcon className="size-[24px] text-red-600" />
+              </div>
+              <p className="font-medium">
+                После оплаты мы отправим заявку организатору. Если она не будет
+                подтверждена, вернем полную стоимость бронирования на вашу карту{" "}
+              </p>
+            </div>
+            <Button className="h-[48px] w-full flex flex-col">
+              <p className="font-medium leading-tight text-[16px]">
+                Перейти к оплате
+              </p>
+              <p className="font-medium text-[#1d1d1d]/50 text-[12px] leading-tight">
+                26500 ₽/чел
+              </p>
+            </Button>
+            <p className="text-[12px] text-[#747474]">
+              Отправляя заявку, вы подтверждаете, что ознакомились с Публичной
+              офертой, принимаете ее условия и даете согласие на обработку
+              персональных данных
+            </p>
           </div>
         </div>
       </div>

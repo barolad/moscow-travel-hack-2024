@@ -20,7 +20,7 @@ import { getApiV1CitiesPrefix } from "@/shared/api";
 import { debounce } from "next/dist/server/utils";
 import * as React from "react";
 
-const SearchBlock = () => {
+const SearchBlock = ({ refetchh }: any) => {
   const [date, setDate] = useState<Date>();
   const [days, setDays] = useState<number>(7);
   const [adults, setAdults] = useState<number>(2);
@@ -294,7 +294,12 @@ const SearchBlock = () => {
           </PopoverContent>
         </Popover>
       </div>
-      <Button className="py-[12px] px-[16px] h-[48px]">Найти</Button>
+      <Button
+        className="py-[12px] px-[16px] h-[48px]"
+        onClick={() => refetchh()}
+      >
+        Найти
+      </Button>
     </div>
   );
 };

@@ -121,7 +121,7 @@ const Tours = () => {
                   htmlFor="withChilds"
                 >
                   <Icons.babybold />
-                  <p className="text-[20px] font-pg">Можно с детьми</p>
+                  <p className="text-[20px] font-pg">Подходит для детей</p>
                 </label>
                 <Checkbox id="withChilds" className="size-6" />
               </div>

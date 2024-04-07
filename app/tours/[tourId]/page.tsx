@@ -11,6 +11,7 @@ import {
   PlusIcon,
   ThumbsDownIcon,
   ThumbsUpIcon,
+  Video,
 } from "lucide-react";
 import { Icons } from "@/shared/assets/icons";
 import Image from "next/image";
@@ -42,6 +43,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import HotTours from "@/components/hot-tours";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 const ToolContent = () => (
   <TooltipProvider>
@@ -341,7 +349,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
               </div>
             </div>
             <div className="h-[40px] w-full" />
-            <div>
+            <div className="w-[808px]">
               <p className="font-pg text-[28px]">Программа тура</p>
               <div className="h-[32px] w-full" />
               {tour?.data?.program?.map((day, index) => (
@@ -565,20 +573,59 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
               <div className="h-[32px] w-full" />
               <div className="flex flex-row space-x-[8px] *:size-[104px] *:cursor-pointer">
                 {Array.from({ length: 4 }).map((el, index) => (
-                  <div
-                    className="relative overflow-hidden rounded-[16px]"
-                    key={index}
-                  >
-                    <Image
-                      src={tour.data.media.head[index].src}
-                      alt=""
-                      className="object-cover brightness-50"
-                      fill
-                    />
-                    <div className="size-full absolute top-0 left-0 text-white font-medium flex justify-center items-center">
-                      <PlayIcon className="fill-white" />
-                    </div>
-                  </div>
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
+                      <div className="relative overflow-hidden rounded-[16px]">
+                        <Image
+                          src={tour.data.media.head[index].src}
+                          alt=""
+                          className="object-cover brightness-50"
+                          fill
+                        />
+                        <div className="size-full absolute top-0 left-0 text-white font-medium flex justify-center items-center">
+                          <PlayIcon className="fill-white" />
+                        </div>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="!p-0 !w-fit">
+                      <Carousel orientation="vertical">
+                        <CarouselContent className="max-h-[640px]">
+                          <CarouselItem>
+                            <video
+                              src="https://xducky.publit.io/file/-7.mp4"
+                              width={360}
+                              height={512}
+                              autoPlay
+                            />
+                          </CarouselItem>
+                          <CarouselItem>
+                            <video
+                              src="https://xducky.publit.io/file/-3.mp4"
+                              width={360}
+                              height={512}
+                              autoPlay
+                            />
+                          </CarouselItem>
+                          <CarouselItem>
+                            <video
+                              src="https://xducky.publit.io/file/-1.mp4"
+                              width={360}
+                              height={512}
+                              autoPlay
+                            />
+                          </CarouselItem>
+                          <CarouselItem>
+                            <video
+                              src="https://xducky.publit.io/file/-2.mp4"
+                              width={360}
+                              height={512}
+                              autoPlay
+                            />
+                          </CarouselItem>
+                        </CarouselContent>
+                      </Carousel>
+                    </DialogContent>{" "}
+                  </Dialog>
                 ))}
               </div>
               <div className="h-[32px] w-full" />
@@ -658,6 +705,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                 </Button>
                 <Button className="!h-[48px]">Оставить отзыв</Button>
               </div>
+              <HotTours />
             </div>
           </div>
 

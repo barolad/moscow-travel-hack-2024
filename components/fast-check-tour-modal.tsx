@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getApiV1ToursId } from "@/shared/api";
 import { normalizeCountForm } from "@/shared/lib/utils";
+import { Icons } from "@/shared/assets/icons";
+import * as React from "react";
 
 const FastCheckTourModal = ({ id }: { id: number }) => {
   const { data: tour } = useQuery({
@@ -25,14 +27,14 @@ const FastCheckTourModal = ({ id }: { id: number }) => {
   });
   return (
     <DialogContent className="p-0 h-[600px] w-[1064px] overflow-hidden">
-      <div className="h-full flex flex-row">
+      <div className="h-full flex flex-row overflow-y-scroll">
         <Carousel className="w-[520px]">
           <CarouselContent className="h-[600px]">
-            {Array.from({ length: 5 }).map((_, index) => (
+            {tour?.data?.media?.head?.map((el, index) => (
               <CarouselItem key={index} className="h-[600px]">
                 <div className="p-1 relative h-[600px]">
                   <Image
-                    src="/Rectangle-6274-3.webp"
+                    src={tour.data.media.head[index].src}
                     alt=""
                     className="object-cover z-0"
                     fill
@@ -44,8 +46,8 @@ const FastCheckTourModal = ({ id }: { id: number }) => {
           <CarouselPrevious variant="default" />
           <CarouselNext variant="default" />
         </Carousel>
-        <div className="w-[544px] h-full p-[24px] flex flex-col justify-between">
-          <div className="flex flex-col space-y-[24px]">
+        <div className="w-[544px] h-full p-[24px] flex flex-col justify-between overflow-y-scroll">
+          <div className="flex flex-col space-y-[24px] h-full ">
             <div className="w-full flex justify-between">
               <p className="text-[24px] w-[392px] font-pg leading-tight">
                 {tour?.data?.title}
@@ -78,48 +80,83 @@ const FastCheckTourModal = ({ id }: { id: number }) => {
               </div>
             </div>
             <div>
-              <p className="line-clamp-6">
-                Тематическая образовательная программа для школьников Москвы и
-                Московской области дает ребятам возможность познакомиться с
-                современными тенденциями транспортной отрасли, а также помогает
-                в развитии системного мышления и совершенствовании навыков
-                командной работы. Дети побывают в центре профориентации, посетят
-                знаменитый павильон «Космос» на ВДНХ и смогут попробовать себя в
-                роли конструкторов будущего. А накануне поездки гиды-кураторы
-                проведут деловую игру «Приключения в СКИЛЛГОРОДЕ» в классе, где
-                обучаются ребята (возможны альтернативные варианты за
-                дополнительную плату).
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: tour?.data?.description!,
+                }}
+                className="line-clamp-6"
+              />
             </div>
             <div className="flex flex-row flex-wrap gap-[8px]">
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
-                Автобусные
+              {tour?.data?.tags?.map((type, index) => (
+                <div
+                  key={index}
+                  className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium"
+                >
+                  {type}
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-x-[12px]">
+              <Button className="flex flex-col h-[48px]">
+                <p className="font-medium leading-tight text-[16px]">
+                  от 45 660 ₽
+                </p>
+                <p className="font-medium text-[#1d1d1d]/50 text-[12px] leading-tight">
+                  Купить билеты
+                </p>
+              </Button>
+              <Button
+                className="h-[48px] space-x-[8px] bg-[#EBEBEB]"
+                variant="secondary"
+              >
+                <p className="font-medium leading-tight text-[16px]">
+                  В избранное
+                </p>
+                <HeartIcon />
+              </Button>
+            </div>
+            <div className="flex flex-col space-y-[8px]">
+              <div className="inline-flex space-x-[12px] items-center">
+                <Icons.greenWallet />
+                <p className="font-pg text-[20px]">Оплачивается отдельно</p>
               </div>
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
-                Автобусные
-              </div>
-              <div className="rounded-[8px] border border-border px-[8px] py-[6px] flex justify-center items-center text-[12px] font-medium">
-                Автобусные
+              <div className="flex flex-col">
+                {tour?.data?.not_included?.map((item, index) => (
+                  <div
+                    className="inline-flex items-center space-x-[12px]"
+                    key={index}
+                  >
+                    <div>
+                      <div className="bg-[#D9D9D9] size-[8px] rounded-full" />
+                    </div>
+                    <p>{item}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-x-[12px]">
-            <Button className="flex flex-col h-[48px]">
-              <p className="font-medium leading-tight text-[16px]">
-                от 45 660 ₽
-              </p>
-              <p className="font-medium text-[#1d1d1d]/50 text-[12px] leading-tight">
-                Купить билеты
-              </p>
-            </Button>
-            <Button
-              className="h-[48px] space-x-[8px] bg-[#EBEBEB]"
-              variant="secondary"
-            >
-              <p className="font-medium leading-tight text-[16px]">
-                В избранное
-              </p>
-              <HeartIcon />
+            <div className="flex flex-col space-y-[8px]">
+              <div className="inline-flex space-x-[12px] items-center">
+                <Icons.greenClipBoard />
+                <p className="font-pg text-[20px]">Входит в стоимость</p>
+              </div>
+              <div className="flex flex-col">
+                {tour?.data?.included?.map((item, index) => (
+                  <div
+                    className="inline-flex items-center space-x-[12px]"
+                    key={index}
+                  >
+                    <div>
+                      <div className="bg-[#D9D9D9] size-[8px] rounded-full" />
+                    </div>
+                    <p>{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="h-[24px] w-full" />
+            <Button className="w-full !h-[48px] sticky bottom-0 mt-[24px] bg-[#EBEBEB] hover:bg-primary">
+              Больше информации о туре
             </Button>
           </div>
         </div>

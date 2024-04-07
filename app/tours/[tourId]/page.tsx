@@ -447,7 +447,10 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
               <p className="font-pg text-[28px]">Проживание</p>
               <div className="h-[32px] w-full" />
               <div className="grid grid-cols-4 grid-rows-3 gap-x-[24px] gap-y-[12px] h-[276px]">
-                <div className="row-span-3 relative rounded-[16px] overflow-hidden">
+                <Link
+                  href="https://russpass.ru/hotel/635bfd29da372fd8b2e25617?arrivalDate=2024-04-07&departureDate=2024-04-08&rooms=2"
+                  className="row-span-3 relative rounded-[16px] overflow-hidden"
+                >
                   <div className="absolute top-[16px] inset-x-[16px] h-[40px] flex justify-between items-center">
                     <div className="size-[40px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
                       <p className="text-[12px] text-white font-medium">
@@ -473,7 +476,7 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                     className="object-cover z-0"
                     fill
                   />
-                </div>
+                </Link>
                 <div className="bg-[#f5f5f5] rounded-[16px] p-[10px]">
                   <p className="font-semibold">Гостиница</p>
                   <p className="text-[12px] text-[#747474] mb-[4px]">Комфорт</p>
@@ -528,12 +531,13 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Условия отмены</AccordionTrigger>
                       <AccordionContent>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: tour.data.important_info!,
-                          }}
-                          className="line-clamp-4 mt-[8px]"
-                        />
+                        <p>
+                          отмена в течение 24 часов – полный возврат предоплаты
+                          отмена более чем за 15 дней до начала тура – полный
+                          возврат за вычетом 15% от стоимости тура отмена менее
+                          чем за 15 дней до начала тура – предоплата не
+                          возвращается
+                        </p>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
@@ -543,12 +547,29 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Пожелания гостю</AccordionTrigger>
                       <AccordionContent>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: tour.data.important_info!,
-                          }}
-                          className="line-clamp-4 mt-[8px]"
-                        />
+                        <p>
+                          Дагестан - мусульманская республика, религию и
+                          традиции которой необходимо уважать. Не рекомендуется
+                          одевать майки и футболки, оголяющие плечи, обнажающие
+                          торс и просвечивающие. Кофты и футболки должны быть
+                          без глубокого декольте. Необходимо и мужчинам и
+                          женщинам избегать шорт и сильно облегающих джинс и
+                          штанов. Вместо шорт в жаркое время лучше одеть бриджи
+                          (длинные шорты по колено либо ниже колена). Все должно
+                          быть в рамках приличия безо всякого намека на
+                          вульгарность. Это продемонстрирует ваше уважение к
+                          местным жителям. При посещении мечети необходимо
+                          надеть длинную одежду с рукавом по ладонь, а женщинам
+                          – надеть платок на голову. Летом обязателен головной
+                          убор от солнца, солнцезащитный крем, и желательно
+                          иметь солнечные очки. Вечером в горах может резко
+                          холодать, поэтому желательно взять даже летом кофту
+                          и/или ветровку. Обувь должна быть удобной! Мы будем
+                          ходить по камням, подходить к обрывам. Желательно
+                          одеть кроссовки или треккинговые ботинки. Не
+                          рекомендую одевать сандали (если они не
+                          туристические).
+                        </p>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>

@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface MenuItemProps {
   title?: string;
@@ -66,10 +67,9 @@ const Header = () => {
             <MenuItem title="Меню" icon={<Icons.burgermenu />} />
             <Dialog>
               <DialogTrigger asChild>
-                {/*<Icons.bonus />*/}
-                Привет
+                <Icons.bonus />
               </DialogTrigger>
-              {/*<MenuItem title="Бонусы" />*/}
+              <MenuItem title="Бонусы" />
               <DialogContent className="w-[674px] rounded-[16px] p-[24px]">
                 <div className="inline-flex items-center mx-auto space-x-1">
                   <p className="font-pg text-[32px] text-center">

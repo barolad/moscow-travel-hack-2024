@@ -12,7 +12,13 @@ import { Input } from "@/components/ui/input";
 import { useMaskito } from "@maskito/react";
 import options from "@/lib/mask";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ClockIcon, MinusIcon, PlusIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  ClockIcon,
+  MinusIcon,
+  PlusIcon,
+  UsersIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import {
@@ -24,6 +30,7 @@ import { addDays, format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
+import { normalizeCountForm } from "@/shared/lib/utils";
 
 const OrderTourPage = ({
   params: { tourId },
@@ -235,12 +242,35 @@ const OrderTourPage = ({
               />
             </div>
           </div>
-          <div className="">
+          <div className="flex flex-col space-y-[24px]">
             <div className="flex flex-col space-y-[16px]">
-              <p className="font-pg text-[20px]">Информация</p>
+              <p className="font-pg text-[20px] leading-none">Информация</p>
               <div className="inline-flex items-center space-x-[8px]">
                 <ClockIcon className="size-[15px] text-[#9999a9]" />
-                <p className="text-[14px]">6 ночей</p>
+                <p className="text-[14px] font-medium">
+                  {tour.data.nights_count}{" "}
+                  {normalizeCountForm(tour.data.nights_count!, [
+                    "ночь",
+                    "ночи",
+                    "ночей",
+                  ])}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col space-y-[16px]">
+              <p className="font-pg text-[20px] leading-none">
+                Дата ближайшего тура
+              </p>
+              <div className="inline-flex items-center space-x-[8px]">
+                <CalendarIcon className="size-[15px] text-[#9999a9]" />
+                <p className="text-[14px] font-medium">23 мая</p>
+              </div>
+            </div>
+            <div className="flex flex-col space-y-[16px]">
+              <p className="font-pg text-[20px] leading-none">Мест в группе</p>
+              <div className="inline-flex items-center space-x-[8px]">
+                <UsersIcon className="size-[15px] text-[#9999a9]" />
+                <p className="text-[14px] font-medium">5/20</p>
               </div>
             </div>
           </div>

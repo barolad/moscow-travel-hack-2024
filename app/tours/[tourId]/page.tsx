@@ -7,7 +7,10 @@ import {
   ChevronRightIcon,
   HeartIcon,
   MinusIcon,
+  PlayIcon,
   PlusIcon,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
 } from "lucide-react";
 import { Icons } from "@/shared/assets/icons";
 import Image from "next/image";
@@ -33,6 +36,12 @@ import { Calendar } from "@/components/ui/calendar";
 import * as React from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { AccordionContent } from "@radix-ui/react-accordion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ToolContent = () => (
   <TooltipProvider>
@@ -207,13 +216,15 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
         <div className="flex flex-row space-x-[24px]">
           <div className="flex-1">
             <div>
-              <p
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: tour.data.description!,
+                }}
                 className={cn("line-clamp-4", {
                   "line-clamp-none": isDescriptionOpen,
                 })}
-              >
-                {tour?.data?.description}
-              </p>
+              />
+
               {!isDescriptionOpen && (
                 <div
                   className="inline-flex text-[#0370C7] items-center mt-[8px] cursor-pointer"
@@ -425,7 +436,9 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                 <div className="row-span-3 relative rounded-[16px] overflow-hidden">
                   <div className="absolute top-[16px] inset-x-[16px] h-[40px] flex justify-between items-center">
                     <div className="size-[40px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
-                      <p className="text-[12px] text-white font-medium">8.8</p>
+                      <p className="text-[12px] text-white font-medium">
+                        {tour.data.rating}
+                      </p>
                     </div>
                     <div className="size-[40px] z-30 text-white rounded-[8px] backdrop-blur-sm overflow-hidden bg-[#1d1d1d]/30 flex items-center justify-center">
                       <Icons.heart className="fill-none size-[24px] text-white" />
@@ -480,6 +493,165 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
               <div className="h-[40px] w-full" />
               <p className="font-pg text-[28px]">Важно знать</p>
               <div className="h-[32px] w-full" />
+              <div className="flex flex-col space-y-[8px]">
+                <div className="bg-[#F5F5F5] rounded-[16px] w-full p-[24px]">
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Подготовка к туру</AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: tour.data.important_info!,
+                          }}
+                          className="line-clamp-4 mt-[8px]"
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+                <div className="bg-[#F5F5F5] rounded-[16px] w-full p-[24px]">
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Условия отмены</AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: tour.data.important_info!,
+                          }}
+                          className="line-clamp-4 mt-[8px]"
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+                <div className="bg-[#F5F5F5] rounded-[16px] w-full p-[24px]">
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Пожелания гостю</AccordionTrigger>
+                      <AccordionContent>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: tour.data.important_info!,
+                          }}
+                          className="line-clamp-4 mt-[8px]"
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+              </div>
+              <div className="h-[40px] w-full" />
+              <div className="flex flex-row justify-between items-center">
+                <p className="font-pg text-[28px]">Отзывы и оценки</p>
+                <div className="flex flex-row space-x-[8px] items-center">
+                  <div className="h-[32px] w-[40px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
+                    <p className="text-[14px] text-white">
+                      {tour?.data?.rating}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[14px]">
+                      {tour?.data?.reviews?.length} отзывов
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="h-[32px] w-full" />
+              <div className="flex flex-row space-x-[8px] *:size-[104px] *:cursor-pointer">
+                {Array.from({ length: 4 }).map((el, index) => (
+                  <div
+                    className="relative overflow-hidden rounded-[16px]"
+                    key={index}
+                  >
+                    <Image
+                      src={tour.data.media.head[index].src}
+                      alt=""
+                      className="object-cover brightness-50"
+                      fill
+                    />
+                    <div className="size-full absolute top-0 left-0 text-white font-medium flex justify-center items-center">
+                      <PlayIcon className="fill-white" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="h-[32px] w-full" />
+              {tour.data.reviews?.map((review, index) => (
+                <div key={index} className="py-[16px] px-[12px] w-full">
+                  <div className="flex flex-row space-x-[8px] items-center mb-[12px]">
+                    <div className="w-[42px] h-[38px] z-20 rounded-[8px] bg-[#007470] flex items-center justify-center">
+                      <p className="text-[12px] text-white font-medium">
+                        {randomNumberInRange(1, 10)}
+                      </p>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="font-medium">{review.frequency}</p>
+                      <p className="text-[12px] text-[#747474]">
+                        {review.username} | {randomNumberInRange(5, 19)} отзывов
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-[14px] text-[#747474]">
+                    {randomNumberInRange(5, 30)} августа 2023 г.
+                  </p>
+                  <p className="text-[14px]">
+                    <span className="text-[#747474]">Что понравилось: </span>
+                    {review.liked?.map((el) => el + ", ")}
+                  </p>
+                  <div className="mt-[8px] mb-[12px] flex flex-row">
+                    <div className="mt-[3px] mr-[8px]">
+                      <Icons.smileFace />
+                    </div>
+                    <div>
+                      <p>{review.positive_comment}</p>
+                    </div>
+                  </div>
+                  <div className="mb-[12px] flex flex-row">
+                    <div className="mt-[3px] mr-[8px]">
+                      <Icons.noSmileFace />
+                    </div>
+                    <div>
+                      <p>{review.negative_comment}</p>
+                    </div>
+                  </div>
+                  <div className="mb-[12px] flex flex-row items-center space-x-[16px]">
+                    <div className="flex flex-row space-x-[8px] items-center">
+                      <ThumbsUpIcon className="size-[20px]" />{" "}
+                      <p>{randomNumberInRange(0, 100)}</p>
+                    </div>
+                    <div className="flex flex-row space-x-[8px] items-center">
+                      <ThumbsDownIcon className="size-[20px]" />{" "}
+                      <p>{randomNumberInRange(0, 100)}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-x-[12px] *:h-[170px] *:cursor-pointer">
+                    {Array.from({ length: 3 }).map((el, index) => (
+                      <div
+                        className="relative overflow-hidden rounded-[16px]"
+                        key={index}
+                      >
+                        <Image
+                          src={
+                            tour.data.media.head[
+                              randomNumberInRange(0, 100) % 4
+                            ].src
+                          }
+                          alt=""
+                          className="object-cover"
+                          fill
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div className="h-[32px] w-full" />
+              <div className="flex flex-row space-x-[10px] mb-[222px]">
+                <Button className="!bg-[#EBEBEB] !h-[48px]">
+                  Смотреть все
+                </Button>
+                <Button className="!h-[48px]">Оставить отзыв</Button>
+              </div>
             </div>
           </div>
 

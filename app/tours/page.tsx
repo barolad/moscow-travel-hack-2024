@@ -71,7 +71,9 @@ const ToursPage = () => {
       </div>
       <Tours />
       <div className="h-[40px] w-full" />
-      <HotTours />
+      <div className="container">
+        <HotTours />
+      </div>
       {/*<div className="container space-y-[32px]">*/}
       {/*  <h2 className="font-pg text-[24px]">Рекомендованные туры</h2>*/}
       {/*  <div>*/}

@@ -699,13 +699,15 @@ const TourPage = ({ params: { tourId } }: { params: { tourId: string } }) => {
                 </div>
               ))}
               <div className="h-[32px] w-full" />
-              <div className="flex flex-row space-x-[10px] mb-[222px]">
+              <div className="flex flex-row space-x-[10px] mb-[44px]">
                 <Button className="!bg-[#EBEBEB] !h-[48px]">
                   Смотреть все
                 </Button>
                 <Button className="!h-[48px]">Оставить отзыв</Button>
               </div>
-              <HotTours />
+              <div className="mb-[44px]">
+                <HotTours />
+              </div>
             </div>
           </div>
 

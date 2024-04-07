@@ -14,7 +14,7 @@ const HotTours = () => {
   });
   return (
     <>
-      <div className="container space-y-[32px]">
+      <div className="space-y-[32px]">
         <h2 className="font-pg text-[24px]">Рекомендованные туры</h2>
         <div className="flex flex-row gap-x-[8px] overflow-x-scroll">
           {hotTours?.data?.map((tour) => (
